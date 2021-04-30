@@ -1,8 +1,10 @@
 package com.caiiiac.gulimall.coupon;
 
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@MapperScan("com.caiiiac.gulimall.coupon.dao")
 @SpringBootApplication
 public class GulimallCouponApplication {
 
