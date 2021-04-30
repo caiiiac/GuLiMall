@@ -31,6 +31,17 @@ public class CouponController {
     private CouponService couponService;
 
     /**
+     * 测试 nacos
+     * @return
+     */
+    @RequestMapping("/member/list")
+    public R memberCoupons() {
+        CouponEntity entity = new CouponEntity();
+        entity.setCouponName("满100减10");
+        return R.ok().put("coupons", Arrays.asList(entity));
+    }
+
+    /**
      * 列表
      */
     @RequestMapping("/list")
