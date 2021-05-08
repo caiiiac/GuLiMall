@@ -1,12 +1,8 @@
 package com.caiiiac.gulimall.product.service.impl;
 
-import com.caiiiac.common.utils.R;
 import org.springframework.stereotype.Service;
 
-import java.util.Comparator;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -54,6 +50,31 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
         // TODO 检查当前删除项,是否被引用
         baseMapper.deleteBatchIds(asList);
     }
+
+    @Override
+    public Long[] findCatelogPath(Long catelogId) {
+        List<Long> paths = new ArrayList<>();
+        List<Long> parentPath = findCatelogPath(catelogId, paths);
+
+        Collections.reverse(parentPath);
+        return parentPath.toArray(new Long[parentPath.size()]);
+    }
+
+    /**
+     * 递归查找父 id
+     * @param catelogId
+     * @param paths
+     * @return
+     */
+    private List<Long> findCatelogPath(Long catelogId, List<Long> paths) {
+        paths.add(catelogId);
+        CategoryEntity entity = this.getById(catelogId);
+        if (entity.getParentCid() != 0) {
+            findCatelogPath(entity.getParentCid(), paths);
+        }
+        return paths;
+    }
+
 
     /**
      * 递归查找所有菜单的子菜单
