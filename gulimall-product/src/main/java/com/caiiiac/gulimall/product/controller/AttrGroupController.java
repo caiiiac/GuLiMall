@@ -5,9 +5,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.caiiiac.gulimall.product.entity.AttrEntity;
+import com.caiiiac.gulimall.product.service.AttrAttrgroupRelationService;
 import com.caiiiac.gulimall.product.service.AttrService;
 import com.caiiiac.gulimall.product.service.CategoryService;
 import com.caiiiac.gulimall.product.vo.AttrGroupRelationVo;
+import com.caiiiac.gulimall.product.vo.AttrGroupWithAttrsVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,6 +39,21 @@ public class AttrGroupController {
     @Autowired
     private AttrService attrService;
 
+    @Autowired
+    private AttrAttrgroupRelationService relationService;
+
+    @PostMapping("/attr/relation")
+    public R addRelation(@RequestBody List<AttrGroupRelationVo> vos) {
+        relationService.saveBatch(vos);
+        return R.ok();
+    }
+
+    @GetMapping("/{catelogId}/withattr")
+    public R getAttrGroupWithAttrs(@PathVariable("catelogId") Long catelogId) {
+        List<AttrGroupWithAttrsVo> vos = attrGroupService.getAttrGroupWithAttrsByCatelogId(catelogId);
+        return R.ok().put("data", vos);
+    }
+
     /**
      * 根据分组 id 查找关联的所有基本属性
      */
@@ -44,6 +61,14 @@ public class AttrGroupController {
     public R attrRelation(@PathVariable("attrgroupId") Long attrgroupId){
         List<AttrEntity> entities = attrService.getRelationAttr(attrgroupId);
         return R.ok().put("data", entities);
+    }
+
+    // 获取当前分组没有关联的所有属性
+    @GetMapping("/{attrgroupId}/noattr/relation")
+    public R attrNoRelation(@PathVariable("attrgroupId") Long attrgroupId,
+                            @RequestParam Map<String, Object> params){
+        PageUtils page = attrService.getNoRelationAttr(attrgroupId, params);
+        return R.ok().put("data", page);
     }
 
     @PostMapping("/attr/relation/delete")
