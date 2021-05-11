@@ -3,6 +3,7 @@ package com.caiiiac.gulimall.product.controller;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.caiiiac.gulimall.product.vo.AttrRespVo;
 import com.caiiiac.gulimall.product.vo.AttrVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -27,10 +28,14 @@ public class AttrController {
     @Autowired
     private AttrService attrService;
 
-    @GetMapping("base/list/{catelogId}")
-    public R baseAttrList(@RequestParam Map<String, Object> params, @PathVariable("catelogId") Long catelogId) {
+    // product/attr/sale/list/0?
+    // product/attr/base/list/{catelogId}
+    @GetMapping("{attrType}/list/{catelogId}")
+    public R baseAttrList(@RequestParam Map<String, Object> params,
+                          @PathVariable("catelogId") Long catelogId,
+                          @PathVariable("attrType") String type) {
 
-        PageUtils page = attrService.queryBaseAttrPage(params, catelogId);
+        PageUtils page = attrService.queryBaseAttrPage(params, catelogId, type);
         return R.ok().put("data", page);
     }
 
@@ -50,9 +55,9 @@ public class AttrController {
      */
     @RequestMapping("/info/{attrId}")
     public R info(@PathVariable("attrId") Long attrId){
-		AttrEntity attr = attrService.getById(attrId);
-
-        return R.ok().put("attr", attr);
+//		AttrEntity attr = attrService.getById(attrId);
+        AttrRespVo respVo = attrService.getAttrInfo(attrId);
+        return R.ok().put("attr", respVo);
     }
 
     /**
@@ -69,9 +74,9 @@ public class AttrController {
      * 修改
      */
     @RequestMapping("/update")
-    public R update(@RequestBody AttrEntity attr){
-		attrService.updateById(attr);
-
+    public R update(@RequestBody AttrVo attr){
+//		attrService.updateById(attr);
+        attrService.updateAttr(attr);
         return R.ok();
     }
 
