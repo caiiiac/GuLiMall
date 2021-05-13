@@ -1,6 +1,7 @@
 package com.caiiiac.gulimall.coupon.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.caiiiac.common.to.SkuReductionTo;
 import com.caiiiac.common.utils.PageUtils;
 import com.caiiiac.gulimall.coupon.entity.SkuFullReductionEntity;
 
@@ -16,5 +17,7 @@ import java.util.Map;
 public interface SkuFullReductionService extends IService<SkuFullReductionEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    void saveSkuReduction(SkuReductionTo skuReductionTo);
 }
 
