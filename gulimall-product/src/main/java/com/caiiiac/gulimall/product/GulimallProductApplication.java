@@ -8,7 +8,6 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @EnableFeignClients(basePackages = "com.caiiiac.gulimall.product.feign")
 @EnableDiscoveryClient
-@MapperScan("com.caiiiac.gulimall.product.dao")
 @SpringBootApplication
 public class GulimallProductApplication {
     public static void main(String[] args) {
