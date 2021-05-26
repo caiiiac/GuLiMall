@@ -114,7 +114,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         //5. 保存当前 spu 对应的所有 sku 信息
         //5.1 sku 的基本信息 pms_sku_info
         List<Skus> skuses = vo.getSkus();
-        if (CollectionUtils .isNotEmpty(skuses)) {
+        if (CollectionUtils.isNotEmpty(skuses)) {
             skuses.forEach(item -> {
                 String defaultImg = "";
                 for (Images image : item.getImages()) {
@@ -174,9 +174,6 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         }
 
 
-
-
-
     }
 
     @Override
@@ -191,7 +188,7 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
         String key = (String) params.get("key");
         if (!StringUtils.isEmpty(key)) {
             wrapper.and((w) -> {
-                w.eq("id", key).or().like("spu_name",key);
+                w.eq("id", key).or().like("spu_name", key);
             });
         }
 
@@ -212,6 +209,11 @@ public class SpuInfoServiceImpl extends ServiceImpl<SpuInfoDao, SpuInfoEntity> i
                 wrapper
         );
         return new PageUtils(page);
+    }
+
+    @Override
+    public void up(Long spuId) {
+
     }
 
 }
